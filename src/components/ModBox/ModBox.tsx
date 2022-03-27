@@ -29,14 +29,14 @@ const ModBox = ({ mods }: Props) => {
   if (selectedMods === undefined || setSelectedMods === undefined)
     return <p>error</p>;
   return (
-    <div className="w-2/5 rounded-md bg-background-inset">
+    <div className="w-2/5 rounded-md h-full overflow-scroll bg-background-inset">
       {mods.map((mod: Mod) => (
         <div
           onClick={() => selectMod(mod)}
           key={mod.name}
           className={` text-primary-default hover:text-white my-5 hover:cursor-pointer hover:bg-primary-hover ${
             findModInSelectedMods(mod, selectedMods) !== -1
-              ? "bg-primary-selected animate-spin text-white"
+              ? "bg-primary-selected text-white"
               : ""
           }`}
         >

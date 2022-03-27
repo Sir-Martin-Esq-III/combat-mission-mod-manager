@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Mod } from "../../types";
 import ModBox from "../ModBox/ModBox";
 import { SwitchHorizontalIcon } from "@heroicons/react/outline";
@@ -19,7 +19,7 @@ const mockData: Mod[] = [
 function ModManagerView({}: Props) {
   const [mods, setmods] = useState<Mod[]>(mockData);
   const installedModContext = useContext(InstalledModContext);
-  const { selectedMods, handleModLoadedState, setSelectedMods } =
+  const { selectedMods, handleModLoadedState, setSelectedMods, loadedMods } =
     installedModContext;
 
   const switchClickHandler = () => {
@@ -27,6 +27,14 @@ function ModManagerView({}: Props) {
       handleModLoadedState();
     }
   };
+
+  useEffect(() => {
+    if (loadedMods) {
+      setmods(loadedMods);
+    }
+    console.log(loadedMods);
+  }, [installedModContext]);
+
   return (
     <div className="flex flex-col md:flex-row w-screen ">
       <ModBox mods={mockData.filter((mod) => mod.loaded === false)} />
@@ -34,7 +42,7 @@ function ModManagerView({}: Props) {
         className="w-1/5 rotate-90 md:rotate-0 hover:cursor-pointer hover:text-primary-hover text-primary-default"
         onClick={() => switchClickHandler()}
       />
-      <ModBox mods={mockData.filter((mod) => mod.loaded === true)} />
+      <ModBox mods={mods.filter((mod) => mod.loaded === true)} />
     </div>
   );
 }
