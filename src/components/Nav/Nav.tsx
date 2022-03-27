@@ -24,8 +24,10 @@ const Navigation = (props: Props) => {
         <div
           key={option.path}
           onClick={() => navigate(`/${option.path}`)}
-          className={`hover:bg-primary-hover ${
-            pathname.includes(option.path) ? "bg-primary-selected" : ""
+          className={`hover:bg-primary-hover hover:text-white hover:cursor-pointer ${
+            pathname.includes(option.path)
+              ? "bg-primary-selected text-white"
+              : "text-primary-default"
           }`}
         >
           {option.displayName}

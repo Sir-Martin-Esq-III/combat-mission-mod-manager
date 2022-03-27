@@ -1,20 +1,18 @@
 import React from "react";
 
-type filePaths = {
+export type folderPaths = {
   game: string;
   mods: string;
 };
 
 type globalContextT = {
-  data: Record<any, any> | undefined;
-  error: any;
-  loading: boolean;
+  folderPaths: folderPaths | undefined;
+  setFolderPaths: React.Dispatch<React.SetStateAction<folderPaths>> | undefined;
 };
 
 let GlobalContext = React.createContext<globalContextT>({
-  data: undefined,
-  error: null,
-  loading: false,
+  folderPaths: undefined,
+  setFolderPaths: undefined,
 });
 
 export default GlobalContext;

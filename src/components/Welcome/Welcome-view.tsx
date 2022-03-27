@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { dialog } from "@tauri-apps/api";
 import { useNavigate } from "react-router-dom";
+import GlobalContext from "../../context/globalContext";
 
 type Props = {};
 
 const WelcomeView = (props: Props) => {
-  const [GameInstallFolder, setGameInstallFolder] = useState<string>();
-  const [ModStoreageFolder, setModStoreageFolder] = useState<string>();
+  const { setFolderPaths, folderPaths } = useContext(GlobalContext);
+  const [GameInstallFolder, setGameInstallFolder] = useState<string>(
+    folderPaths?.game ?? ""
+  );
+  const [ModStoreageFolder, setModStoreageFolder] = useState<string>(
+    folderPaths?.mods ?? ""
+  );
   const navigate = useNavigate();
 
   const tauriDialogHandler = async (title: string) => {
@@ -23,6 +29,13 @@ const WelcomeView = (props: Props) => {
     tauriDialogHandler("CM game install location").then((path: string) =>
       setModStoreageFolder(path)
     );
+  };
+
+  const validateButtonHandler = () => {
+    if (GameInstallFolder && ModStoreageFolder && setFolderPaths) {
+      setFolderPaths({ game: GameInstallFolder, mods: ModStoreageFolder });
+      navigate("/modmanager");
+    }
   };
 
   return (
@@ -65,7 +78,7 @@ const WelcomeView = (props: Props) => {
       <button
         className="bg-primary-default text-white rounded-md disabled:bg-gray-600 p-10 my-5 text-xl hover:bg-primary-hover"
         disabled={!(ModStoreageFolder && GameInstallFolder)}
-        onClick={() => navigate("/modmanager")}
+        onClick={() => validateButtonHandler()}
       >
         Continue
       </button>

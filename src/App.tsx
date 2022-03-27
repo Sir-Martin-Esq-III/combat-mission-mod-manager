@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import ModManagerView from "./components/ModManagerView/ModManagerView";
@@ -8,12 +8,17 @@ import ModInstall from "./components/ModInstall/ModInstall";
 import InstalledModContextWrapper from "./components/ModManagerView/context/InstalledModContext";
 import WelcomeView from "./components/Welcome/Welcome-view";
 import GlobalContext from "./context/globalContext";
+import { folderPaths } from "./context/globalContext";
 
 function App() {
   // const globContext=useContext(globalContext)
+  const [folderPaths, setfolderPaths] = useState<folderPaths>({
+    game: "",
+    mods: "",
+  });
   return (
     <GlobalContext.Provider
-      value={{ data: { filePaths: "test" }, error: false, loading: false }}
+      value={{ folderPaths: folderPaths, setFolderPaths: setfolderPaths }}
     >
       <Router>
         <div className="w-screen h-screen bg-background">
